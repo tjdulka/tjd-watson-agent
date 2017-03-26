@@ -15,29 +15,29 @@ You may obtain a copy of the License at
 
 
 
-import request from 'request'
+import request from 'request';
 function genericRequestPromise (options) {
   return new Promise((resolve, reject) => {
     request(options, (error, response, body) => {
       if (error) {
-        console.log(error)
-        reject(error)
+        console.log(error);
+        reject(error);
       }
-      resolve(JSON.parse(body))
-    })
-  })
+      resolve(JSON.parse(body));
+    });
+  });
 }
 
 function genericRequestRawPromise (options) {
   return new Promise((resolve, reject) => {
     request(options, (error, response, body) => {
       if (error) {
-        console.log(error)
-        reject(error)
+        console.log(error);
+        reject(error);
       }
-      resolve(body)
-    })
-  })
+      resolve(body);
+    });
+  });
 }
 
-export {genericRequestPromise, genericRequestRawPromise}
+export {genericRequestPromise, genericRequestRawPromise};
