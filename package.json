@@ -1,9 +1,9 @@
 {
   "name": "tjd-watson-agent",
   "version": "1.0.1",
-  "main": "server/server.js",
+  "main": "dist/server/server.js",
   "scripts": {
-    "start": "node ./server/server.js",
+    "start": "node ./dist/server/server.js",
     "develop": "gulp develop"
   },
   "dependencies": {

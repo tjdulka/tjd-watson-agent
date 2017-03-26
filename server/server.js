@@ -64,9 +64,9 @@ boot(app, __dirname, function (err) {
   }
 });
 
-app.use('/', express.static('client'));
+app.use('/', express.static('dist/client'));
 app.middleware('final', (req, res, next) => {
-  res.sendFile(path.resolve('client/src/index.html'));
+  res.sendFile(path.resolve('dist/client/src/index.html'));
 });
 /*
 app.use('/', (req, res, next) => {

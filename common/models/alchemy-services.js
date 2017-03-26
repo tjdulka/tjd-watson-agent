@@ -15,18 +15,18 @@ You may obtain a copy of the License at
 
 
 
-'use strict';
+'use strict'
 
-import {genericRequestPromise} from '../util/api';
+import {genericRequestPromise} from '../util/api'
 
 module.exports = function (AlchemyServices) {
-  AlchemyServices.disableRemoteMethod('invoke', true);
+  AlchemyServices.disableRemoteMethod('invoke', true)
   // Define the getSentiment method
-  AlchemyServices.getSentiment = async; function (text, cb) {
-    let sentiment = {};
+  AlchemyServices.getSentiment = async function (text, cb) {
+    let sentiment = {}
     try {
       /** Get a response from conversation */
-      sentiment = await; genericRequestPromise({
+      sentiment = await genericRequestPromise({
         url: process.env.ALCHEMY_BASE_URL + process.env.ALCHEMY_SENTIMENT_PATH,
         method: 'POST',
         qs: {
@@ -34,24 +34,24 @@ module.exports = function (AlchemyServices) {
           text: text,
           outputMode: 'json'
         }
-      });
+      })
     } catch (e) {
-      console.log(e);
-      throw (e);
+      console.log(e)
+      throw (e)
     }
     if (sentiment && sentiment.docSentiment) {
-      return [sentiment.docSentiment.score || 0, sentiment.docSentiment.type || 'unknown'];
+      return [sentiment.docSentiment.score || 0, sentiment.docSentiment.type || 'unknown']
     } else {
-      return [0, 'unknown'];
+      return [0, 'unknown']
     }
   }
 
   // Define the getEmotion method
-  AlchemyServices.getEmotion = async; function (text, cb) {
-    let emotions = {};
+  AlchemyServices.getEmotion = async function (text, cb) {
+    let emotions = {}
     try {
       /** Get a response from conversation */
-      emotions = await; genericRequestPromise({
+      emotions = await genericRequestPromise({
         url: process.env.ALCHEMY_BASE_URL + process.env.ALCHEMY_EMOTION_PATH,
         method: 'POST',
         qs: {
@@ -59,26 +59,26 @@ module.exports = function (AlchemyServices) {
           text: text,
           outputMode: 'json'
         }
-      });
+      })
     } catch (e) {
-      console.log(e);
-      throw (e);
+      console.log(e)
+      throw (e)
     }
-    let highScore = -1;
-    let primaryEmotion = '';
+    let highScore = -1
+    let primaryEmotion = ''
     if (emotions.docEmotions) {
       for (let property in emotions.docEmotions) {
         if (Number(emotions.docEmotions[property]) > highScore) {
-          primaryEmotion = property;
-          highScore = Number(emotions.docEmotions[property]);
+          primaryEmotion = property
+          highScore = Number(emotions.docEmotions[property])
         } else if (Number(emotions.docEmotions[property]) === highScore) {
-          primaryEmotion += ', ' + property;
+          primaryEmotion += ', ' + property
         }
       }
     } else {
-      return ['no emotion', 0];
+      return ['no emotion', 0]
     }
-    return [highScore === 0 ? 'no emotion' : primaryEmotion, highScore];
+    return [highScore === 0 ? 'no emotion' : primaryEmotion, highScore]
   }
 
   // Register the Remote Method
@@ -111,7 +111,7 @@ module.exports = function (AlchemyServices) {
         }
       ]
     }
-  );
+  )
 
   // Register the Remote Method
   AlchemyServices.remoteMethod(
@@ -143,5 +143,5 @@ module.exports = function (AlchemyServices) {
         }
       ]
     }
-  );
-};
+  )
+}

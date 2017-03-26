@@ -19,78 +19,78 @@ You may obtain a copy of the License at
  * @title env/env
  * @overview Boot script to load environent variables, VCAP services, and other environment level configuration
  */
-import cfenv from 'cfenv';
-import fs from 'fs';
-import util from 'util';
+import cfenv from 'cfenv'
+import fs from 'fs'
+import util from 'util'
 
 /** VCAP services */
-let vcapServices = {};
+let vcapServices = {}
 
 /** Environemnt variables */
-let envVars = {};
+let envVars = {}
 
 /** Cloud foundry app environment */
-let appEnv = cfenv.getAppEnv();
+let appEnv = cfenv.getAppEnv()
 // dotenv.config()
 
 if (process.env.VCAP_SERVICES) {
-  vcapServices = JSON.parse(process.env.VCAP_SERVICES);
+  vcapServices = JSON.parse(process.env.VCAP_SERVICES)
 /** otherwise use our JSON file */
 } else if (appEnv.VCAP_APPLCATION) {
-  vcapServices = appEnv.getServices();
+  vcapServices = appEnv.getServices()
 } else {
   try {
-    vcapServices = JSON.parse(fs.readFileSync('./vcap.env', 'utf8'));
+    vcapServices = JSON.parse(fs.readFileSync('./vcap.env', 'utf8'))
   } catch (e) {
-    console.log('no development vcap.env file found');
+    console.log('no development vcap.env file found')
   }
 }
 /** If running in Bluemix, use the environment variables */
-process.env.CONVERSATION_API_URL = appEnv.CONVERSATION_API_URL || process.env.CONVERSATION_API_URL;
-process.env.ALCHEMY_API_KEY = appEnv.ALCHEMY_API_KEY || process.env.ALCHEMY_API_KEY;
-process.env.ALCHEMY_BASE_URL = appEnv.ALCHEMY_BASE_URL || process.env.ALCHEMY_BASE_URL;
-process.env.ALCHEMY_SENTIMENT_PATH = appEnv.ALCHEMY_SENTIMENT_PATH || process.env.ALCHEMY_SENTIMENT_PATH;
-process.env.ALCHEMY_EMOTION_PATH = appEnv.ALCHEMY_EMOTION_PATH || process.env.ALCHEMY_EMOTION_PATH;
+process.env.CONVERSATION_API_URL = appEnv.CONVERSATION_API_URL || process.env.CONVERSATION_API_URL
+process.env.ALCHEMY_API_KEY = appEnv.ALCHEMY_API_KEY || process.env.ALCHEMY_API_KEY
+process.env.ALCHEMY_BASE_URL = appEnv.ALCHEMY_BASE_URL || process.env.ALCHEMY_BASE_URL
+process.env.ALCHEMY_SENTIMENT_PATH = appEnv.ALCHEMY_SENTIMENT_PATH || process.env.ALCHEMY_SENTIMENT_PATH
+process.env.ALCHEMY_EMOTION_PATH = appEnv.ALCHEMY_EMOTION_PATH || process.env.ALCHEMY_EMOTION_PATH
 
 /** For display */
-envVars.CONVERSATION_API_URL = process.env.CONVERSATION_API_URL;
-envVars.ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
-envVars.ALCHEMY_BASE_URL = process.env.ALCHEMY_BASE_URL;
-envVars.ALCHEMY_SENTIMENT_PATH = process.env.ALCHEMY_SENTIMENT_PATH;
-envVars.ALCHEMY_EMOTION_PATH = process.env.ALCHEMY_EMOTION_PATH;
+envVars.CONVERSATION_API_URL = process.env.CONVERSATION_API_URL
+envVars.ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY
+envVars.ALCHEMY_BASE_URL = process.env.ALCHEMY_BASE_URL
+envVars.ALCHEMY_SENTIMENT_PATH = process.env.ALCHEMY_SENTIMENT_PATH
+envVars.ALCHEMY_EMOTION_PATH = process.env.ALCHEMY_EMOTION_PATH
 
 /** Application Constants */
 const CONSTANTS = {
   API_PROP_SUGGEST: 'propertySuggestion'
-};
+}
 
-global.CONSTANTS = CONSTANTS;
+global.CONSTANTS = CONSTANTS
 /**
  * Prints information about the environment
  *
  * @return {void}
  */
 function printEnvInfo () {
-  console.log('---CUSTOM ENV VARIABLES---');
-  console.log(envVars);
-  console.log('------APP ENVIRONMENT------');
-  console.log(appEnv);
-  console.log('-------VCAP SERVICES-------');
-  console.log(util.inspect(vcapServices, {depth: 5}));
-  console.log('---------CONSTANTS---------');
-  console.log(CONSTANTS);
+  console.log('---CUSTOM ENV VARIABLES---')
+  console.log(envVars)
+  console.log('------APP ENVIRONMENT------')
+  console.log(appEnv)
+  console.log('-------VCAP SERVICES-------')
+  console.log(util.inspect(vcapServices, {depth: 5}))
+  console.log('---------CONSTANTS---------')
+  console.log(CONSTANTS)
 }
 
 module.exports = function (app) {
-  printEnvInfo();
-  global.thisApp = app;
-  global.appEnv = appEnv;
+  printEnvInfo()
+  global.thisApp = app
+  global.appEnv = appEnv
 
   /**
    * Set environment variables as express properties
    * Acess through app.get('VARIABLE_NAME') where app is your express app
    */
   for (let prop in global.envVars) {
-    app.set(prop, global.envVars[prop]);
+    app.set(prop, global.envVars[prop])
   }
-};
+}

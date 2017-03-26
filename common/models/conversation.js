@@ -15,24 +15,24 @@ You may obtain a copy of the License at
 
 
 
-'use strict';
+'use strict'
 
-import {genericRequestPromise} from '../util/api';
+import {genericRequestPromise} from '../util/api'
 
 module.exports = function (Conversation) {
-  Conversation.disableRemoteMethod('invoke', true);
-  Conversation.orchestratedMessage = async; function (req, body, cb) {
+  Conversation.disableRemoteMethod('invoke', true)
+  Conversation.orchestratedMessage = async function (req, body, cb) {
     // let baseUrl = getBaseUrl(req)
-    let enrichment = {};
-    let message = {};
-    let retText = '';
-    let enrichmentName = '';
+    let enrichment = {}
+    let message = {}
+    let retText = ''
+    let enrichmentName = ''
     try {
-      let context = body.context;
-      let input = body.input;
+      let context = body.context
+      let input = body.input
 
       /** Get a response from conversation */
-      message = await; genericRequestPromise({
+      message = await genericRequestPromise({
         url: process.env.CONVERSATION_API_URL,
         headers: {
           'accept': 'application/json',
@@ -45,14 +45,14 @@ module.exports = function (Conversation) {
           },
           context: context
         })
-      });
+      })
 
-      retText = message.output.text.join('\n');
+      retText = message.output.text.join('\n')
     } catch (e) {
-      console.log(e);
-      throw (e);
+      console.log(e)
+      throw (e)
     }
-    return [message, enrichment, retText, enrichmentName];
+    return [message, enrichment, retText, enrichmentName]
   }
   // Register the Remote Method
   Conversation.remoteMethod(
@@ -101,5 +101,5 @@ module.exports = function (Conversation) {
         }
       ]
     }
-  );
-};
+  )
+}
