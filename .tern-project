@@ -1,0 +1,12 @@
+{
+	"plugins": {
+		"es_modules": {}
+	},
+	"ecmaVersion": 6,
+	"libs": [
+		"ecma5",
+		"ecma6"
+	],
+	"loadEagerly": [],
+	"sourceType": "module"
+}

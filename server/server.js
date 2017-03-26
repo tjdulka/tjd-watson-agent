@@ -15,58 +15,59 @@ You may obtain a copy of the License at
 
 
 
-'use strict'
+/*eslint-env es_modules */
+'use strict';
 
-import 'babel-polyfill'
-import express from 'express'
-import path from 'path'
-require('dotenv').config()
+import 'babel-polyfill';
+import express from 'express';
+import path from 'path';
+require('dotenv').config();
 
-var loopback = require('loopback')
-var boot = require('loopback-boot')
+var loopback = require('loopback');
+var boot = require('loopback-boot');
 // The following requires are for parsing the body when doing a file upload
-var bodyParser = require('body-parser')
-var multer = require('multer')
+var bodyParser = require('body-parser');
+var multer = require('multer');
 
 // Define the storage for the files being upload.
-var storage = multer.memoryStorage()
+var storage = multer.memoryStorage();
 
-var app = module.exports = loopback()
+var app = module.exports = loopback();
 
 // Add the middleware to parse multipart forms
-app.use(multer({storage: storage}).any())
+app.use(multer({storage: storage}).any());
 
 // Parse body of incoming requests
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.start = function () {
   // start the web server
   return app.listen(global.appEnv.port, function () {
-    app.emit('started')
-    var baseUrl = app.get('url').replace(/\/$/, '')
-    console.log('Web server listening at: %s', baseUrl)
+    app.emit('started');
+    var baseUrl = app.get('url').replace(/\/$/, '');
+    console.log('Web server listening at: %s', baseUrl);
     if (app.get('loopback-component-explorer')) {
-      var explorerPath = app.get('loopback-component-explorer').mountPath
-      console.log('Browse your REST API at %s%s', baseUrl, explorerPath)
+      var explorerPath = app.get('loopback-component-explorer').mountPath;
+      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
-  })
-}
+  });
+};
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
 boot(app, __dirname, function (err) {
-  if (err) throw err
+  if (err) throw err;
 
   // start the server if `$ node server.js`
   if (require.main === module) {
-    app.start()
+    app.start();
   }
-})
+});
 
-app.use('/', express.static('dist/client'))
+app.use('/', express.static('dist/client'));
 app.middleware('final', (req, res, next) => {
-  res.sendFile(path.resolve('dist/client/index.html'))
-})
+  res.sendFile(path.resolve('dist/client/index.html'));
+});
 /*
 app.use('/', (req, res, next) => {
   // res.sendFile(path.resolve('dist/client/rex/index.html'))
