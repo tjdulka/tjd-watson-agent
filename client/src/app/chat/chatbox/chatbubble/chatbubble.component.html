@@ -1,0 +1,15 @@
+<div class="message-box">
+  <div class="{{ direction }}">
+    <div class=" {{direction+'-icon'}}" >
+      <span *ngIf="direction === 'to-watson'" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+      <div *ngIf="direction === 'from-watson'" class="from-watson-icon">
+        <img src='assets/img/ibm/watson/watson-globe.png' style='width:50px'>
+      </div>
+    </div>
+    <div class="{{direction+'-inner'}}" >
+      <div *ngIf="type === 'text'">
+        {{message}}
+      </div>
+    </div>
+  </div>
+</div>

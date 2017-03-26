@@ -1,0 +1,19 @@
+<form class="form-inline" autocomplete="off">
+  <div class="form-group ">
+    <input
+      [(ngModel)]="text"
+      (keypress) = "emitKeyPress($event)"
+      type="text"
+      class="form-control message-bar"
+      id="chat-input"
+      placeholder="Send a message to Watson!"
+      name="textInput"
+      autocomplete="off">
+    <button
+      type="button"
+      class="btn btn-default message-send"
+      (click)="emitSendMessage()">
+      Send
+    </button>
+  </div>
+</form>
