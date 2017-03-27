@@ -1,5 +1,5 @@
 {
-  "name": "tjd-watson-agent",
+  "name": "watson-generic-chat-agent",
   "version": "1.0.1",
   "main": "dist/server/server.js",
   "scripts": {
