@@ -38,7 +38,7 @@ export class OrchestratedConversationService {
       },
       context: context
     }
-    console.log('Message: %s%s', message)
+
     return this._http.post(this._url, body)
       .map((res: Response) => res.json())
   }
